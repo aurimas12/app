@@ -1,3 +1,7 @@
 pavyko bleha
 kartojam
 matai kur vienetas uzsidege ten rodo pakeitimus
+
+tau reik koki paketima padaryti failuose ta prasme atsidaryti bele kuri kazka parasyti issaugoti?
+ jo command+s yra save o cia ka reikia parasyti?zinute  is kurios kiti supras kas per pakeitimas buvo darytas
+ nu pvz atnaujinimas ?\jo
