@@ -30,6 +30,7 @@ print(f"amount of post:", len(articles))
 # for span in spans:
 #     print(span.text)
 
+# Scrap UAB Ovoko Data analyst
 article = articles[20]
 post_url = article.find("a")
 post_url= post_url.get("href")
