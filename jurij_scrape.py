@@ -1,8 +1,16 @@
 from bs4 import BeautifulSoup
 import requests
 import json
+import time
 
-                          
+
+def count_time():
+        duration = (stop_time-start_time)
+        return round(duration, 2)
+
+
+start_time = time.time() 
+                         
 source = requests.get('https://www.cvbankas.lt/?location=606&padalinys%5B%5D=76&keyw=python').text
 soup = BeautifulSoup(source, 'lxml')
 
@@ -29,10 +37,11 @@ post = {
         "date": date
         }
 print(post)
-
+stop_time = time.time()  
 
 with open("cv_bankas_scrap.json", "a") as file:
     json.dump(post, file, indent=2)
     print(f'Informacija irasyta .json faile')
 
 
+print(f'web information extraction time',count_time())
