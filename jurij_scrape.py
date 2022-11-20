@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import json
 import time
+from datetime import datetime, timedelta
 
 
 def count_time():
@@ -24,9 +25,30 @@ post_url = article.find("a", {"class": "list_a can_visited list_a_has_logo"}).at
 img_url = article.find('img').get('src')
 position = article.find('h3').text
 company = article.find('span', {'class': 'dib mt5'}).text
-date = article.find('span', {'class': 'txt_list_2'}).text
+post_date = article.find('span', {'class': 'txt_list_2'}).text
 salary = article.find('span', {'class': 'salary_amount'}).text
 city = article.find('span', {'class': 'list_city'}).text
+
+
+post_date_split = post_date.split()
+data_number = post_date_split[1]
+
+if 'd.' in post_date_split:
+        post_temp = datetime.now() - timedelta(days=int(data_number))
+        post_upload = post_temp.ctime()
+       
+elif "val." in post_date_split:
+        post_temp = datetime.now() - timedelta(hours=int(data_number))
+        post_upload = post_temp.ctime()
+        
+elif "min." in post_date_split:
+        post_temp = datetime.now() - timedelta(minutes=int(data_number))
+        post_upload = post_temp.ctime()
+        
+else:
+        post_upload = post_date
+
+
 
 post = {
         "post_id": post_id,
@@ -36,10 +58,13 @@ post = {
         "company": company, 
         "salary": salary,
         "city": city,
-        "date": date
+        "time_passed": post_date,
+        "upload_time": post_upload
         }
 print(post)
+
 stop_time = time.time()  
+
 
 with open("cv_bankas_scrap.json", "a") as file:
     json.dump(post, file, indent=2)
