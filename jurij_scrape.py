@@ -19,6 +19,7 @@ print(f"amount of post:", len(articles))
 
 
 article = articles[20]
+post_id = article.find('div', {'class': 'jobadlist_ad_anchor'}).get("id")[6:]
 post_url = article.find("a", {"class": "list_a can_visited list_a_has_logo"}).attrs['href'] 
 img_url = article.find('img').get('src')
 position = article.find('h3').text
@@ -28,6 +29,7 @@ salary = article.find('span', {'class': 'salary_amount'}).text
 city = article.find('span', {'class': 'list_city'}).text
 
 post = {
+        "post_id": post_id,
         "post_url": post_url, 
         "img_url": img_url,
         "position": position, 
