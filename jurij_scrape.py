@@ -2,11 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import json
 import time
-
-
-def count_time():
-        duration = (stop_time-start_time)
-        return round(duration, 2)
+from scrap_func import upload_time, count_time
 
 
 start_time = time.perf_counter() 
@@ -29,34 +25,8 @@ salary = article.find('span', {'class': 'salary_amount'}).text
 city = article.find('span', {'class': 'list_city'}).text
 
 
-current_time = round(time.time())
-post_date_split = post_date.split()
-data_number = post_date_split[1]
-current_time = round(time.time())
-time_values = ['val.', 'min.', 'd.']
-
-def upload_time():
-        for x in post_date_split:
-                if x in time_values:
-                        if x == "d.":
-                                temp_days = int(data_number) * 86400
-                                post_upload = current_time - temp_days
-                                return post_upload
-                        
-                        if x == "val.":
-                                temp_hour = int(data_number) * 3600
-                                post_upload = current_time - temp_hour
-                                return post_upload
-                        
-                        if x == "min.":
-                                temp_min = int(data_number) * 60
-                                post_upload = current_time - temp_min
-                                return post_upload
-                        else:
-                                return  # neveikia !!!!! palikau 
-
                                   
-up = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(upload_time()))
+upload_post = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(upload_time()))
 
 
 post = {
@@ -67,7 +37,7 @@ post = {
         "company": company, 
         "salary": salary,
         "city": city,
-         "upload_post": up,
+         "upload_post": upload_post,
         "time_public": post_date
         }
 print(post)
