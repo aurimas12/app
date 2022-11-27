@@ -23,7 +23,7 @@ company = article.find('span', {'class': 'dib mt5'}).text
 post_date = article.find('span', {'class': 'txt_list_2'}).text
 salary = article.find('span', {'class': 'salary_amount'}).text
 city = article.find('span', {'class': 'list_city'}).text
-
+salary_arr = list([salary])
 
                                   
 upload_post = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(upload_time()))
@@ -35,13 +35,20 @@ post = {
         "img_url": img_url,
         "position": position, 
         "company": company, 
-        "salary": salary,
+        "salary": salary_arr,
         "city": city,
          "upload_post": upload_post,
         "time_public": post_date
         }
 # print(post)
+post_arr = []
+for  item, val in post.items():
+        post_arr.extend([item, val])
+
+print(post_arr)
+
 print('post scraping done.')
+
 
 stop_time = time.perf_counter()   
 
