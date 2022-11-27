@@ -35,7 +35,7 @@ post = {
         "img_url": img_url,
         "position": position, 
         "company": company, 
-        "salary": [salary],
+        "salary": salary,
         "city": city,
          "upload_post": upload_post,
         "time_public": post_date
