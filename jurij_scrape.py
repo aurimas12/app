@@ -35,19 +35,20 @@ post = {
         "img_url": img_url,
         "position": position, 
         "company": company, 
-        "salary": salary,
+        "salary": [salary],
         "city": city,
          "upload_post": upload_post,
         "time_public": post_date
         }
+# print(post)
 print('post scraping done.')
 
 stop_time = time.perf_counter()   
 
 
-with open("cv_bankas_scrap.json", "a") as file:
-    json.dump(post, file, indent=2)
-    print(f'Informacija irasyta .json faile')
+# with open("cv_bankas_scrap.json", "a") as file:
+#     json.dump(post, file, indent=2)
+#     print(f'Informacija irasyta .json faile')
 
 
 print(f'web information extraction time',count_time())
