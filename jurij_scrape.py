@@ -40,7 +40,7 @@ post = {
          "upload_post": upload_post,
         "time_public": post_date
         }
-print(post)
+print('post scraping done.')
 
 stop_time = time.perf_counter()   
 
