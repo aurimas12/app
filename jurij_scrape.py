@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import json
 import time
-from scrap_func import upload_time, count_time
+from srap_preprocessing import upload_time, count_time
 
 
 start_time = time.perf_counter() 
