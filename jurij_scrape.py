@@ -26,8 +26,7 @@ city = article.find('span', {'class': 'list_city'}).text
 
 salary_split = salary.rsplit('-')
 salary_int =list(map(int, salary_split))
-print(salary_int)     
-      
+  
                                   
 upload_post = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(upload_time()))
 
@@ -44,12 +43,6 @@ post = {
     "time_public": post_date
         }
 
-post_arr = []
-for  item, val in post.items():
-    post_arr.extend([item, val])
-
-print(post_arr)
-
 print('post scraping done.')
 
 
@@ -57,7 +50,6 @@ stop_time = time.perf_counter()
 
 
 # with open("cv_bankas_scrap.json", "a") as file:
-#     json.dump(post, file, indent=2)
 #     json.dump(post, file, indent=2)
 #     print(f'Informacija irasyta .json faile')
 
