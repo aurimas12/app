@@ -1,8 +1,7 @@
 import time
 
      
-def upload_time():
-    from jurij_scrape import post_date 
+def upload_time(post_date):
      
     current_time = round(time.time())
     post_date_split = post_date.split()
@@ -31,8 +30,7 @@ def upload_time():
         print(f'value : {data_value} not in time_values')
     
 
-def count_time():
-    from jurij_scrape import start_time, stop_time
-    duration = (stop_time - start_time)
+def count_time(start, stop):
+    duration = (stop - start)
     return round(duration, 2)
 
