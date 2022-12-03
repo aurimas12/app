@@ -33,20 +33,20 @@ upload_post = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(upload_time()))
 
 
 post = {
-        "post_id": post_id,
-        "post_url": post_url, 
-        "img_url": img_url,
-        "position": position, 
-        "company": company, 
-        "salary": salary_int,
-        "city": city,
-         "upload_post": upload_post,
-        "time_public": post_date
+    "post_id": post_id,
+    "post_url": post_url, 
+    "img_url": img_url,
+    "position": position, 
+    "company": company, 
+    "salary": salary_int,
+    "city": city,
+    "upload_post": upload_post,
+    "time_public": post_date
         }
 
 post_arr = []
 for  item, val in post.items():
-        post_arr.extend([item, val])
+    post_arr.extend([item, val])
 
 print(post_arr)
 
@@ -57,6 +57,7 @@ stop_time = time.perf_counter()
 
 
 # with open("cv_bankas_scrap.json", "a") as file:
+#     json.dump(post, file, indent=2)
 #     json.dump(post, file, indent=2)
 #     print(f'Informacija irasyta .json faile')
 
