@@ -26,7 +26,7 @@ salary_split = salary.rsplit('-')
 salary_int =list(map(int, salary_split))
 city = article.find('span', {'class': 'list_city'}).text 
                                   
-upload_post = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(upload_time()))
+upload_post = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(upload_time(post_date)))
 
 
 post_source = requests.get(post_url).text
@@ -71,12 +71,14 @@ print(post)
 print('post scraping done.')
 
 
+
+
 stop_time = time.perf_counter()   
 
 
 # with open("cv_bankas_scrap.json", "a") as file:
 #     json.dump(post, file, indent=2)
-#     print(f'Informacija irasyta .json faile')
+#     print(f'Informacija irasyta cv_bankas_scrap.json faile')
 
 
-print(f'web information extraction time',count_time())
+print(f'web information extraction time',count_time(start_time, stop_time))
