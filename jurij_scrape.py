@@ -22,16 +22,40 @@ position = article.find('h3').text
 company = article.find('span', {'class': 'dib mt5'}).text
 post_date = article.find('span', {'class': 'txt_list_2'}).text
 salary = article.find('span', {'class': 'salary_amount'}).text
-city = article.find('span', {'class': 'list_city'}).text
-
 salary_split = salary.rsplit('-')
 salary_int =list(map(int, salary_split))
-  
+city = article.find('span', {'class': 'list_city'}).text 
                                   
 upload_post = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(upload_time()))
 
 
+post_source = requests.get(post_url).text
+post_soup = BeautifulSoup(post_source, 'lxml')
+
+job_h2 = post_soup.find_all('h2')
+job_full = post_soup.find_all('div', {'class': 'jobad_txt'})
+job_head_desc = job_h2[0].text
+job_desciption = post_soup.find('div', {'class': 'jobad_txt'}).text
+job_head_candid = job_h2[1].text
+job_cand_full= job_full[1]
+job_candidate = job_cand_full.text
+job_head_requir = job_h2[2].text
+job_reguir_ful = job_full[2]
+job_requirement = job_reguir_ful.text
+job_head_salary = job_h2[3].text
+job_salary_full = job_full[3]
+job_sal= job_salary_full.text
+job_sal_format = (''.join([ch for ch in job_sal if ch not in [' ', '\t', '\n']]))
+
+job_description = [
+    job_head_desc, job_desciption,
+    job_head_candid, job_candidate,
+    job_head_requir, job_requirement,
+    job_head_salary, job_sal_format]
+
+
 post = {
+    "description": job_description,
     "post_id": post_id,
     "post_url": post_url, 
     "img_url": img_url,
@@ -43,6 +67,7 @@ post = {
     "time_public": post_date
         }
 
+print(post)
 print('post scraping done.')
 
 
