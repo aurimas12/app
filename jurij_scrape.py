@@ -30,8 +30,36 @@ salary_int =list(map(int, salary_split))
                                   
 upload_post = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(upload_time(post_date)))
 
+post_source = requests.get(post_url)
+post_soup = BeautifulSoup(post_source.text, 'lxml')
+
+
+job_h2 = post_soup.find_all('h2')
+job_full = post_soup.find_all('div', {'class': 'jobad_txt'})
+
+job_head_desc = job_h2[0].text
+job_descrip = post_soup.find('div', {'class': 'jobad_txt'}).text
+job_head_candid = job_h2[1].text
+job_cand_full= job_full[1]
+job_candidate = job_cand_full.text
+job_head_requir = job_h2[2].text
+job_reguir_ful = job_full[2]
+job_requirement = job_reguir_ful.text
+job_head_salary = job_h2[3].text
+job_salary_full = job_full[3]
+job_sal= job_salary_full.text
+job_sal_format = (''.join([ch for ch in job_sal if ch not in [' ', '\t', '\n']]))
+
 
 post = {
+    "job_head_desc": job_head_desc,
+    "job_description": job_descrip,
+    "job_head_candid":job_head_candid,
+    "job_candidate": job_candidate,
+    "job_head_requirement": job_head_requir,
+    "job_requirement": job_requirement,
+    "job_head_salary": job_head_salary,
+    "job_salary_format": job_sal_format,
     "post_id": post_id,
     "post_url": post_url, 
     "img_url": img_url,
@@ -43,6 +71,7 @@ post = {
     "time_public": post_date
         }
 
+# print(post)
 print('Post scraping done.')
 
 
