@@ -50,16 +50,19 @@ job_salary_full = job_full[3]
 job_sal= job_salary_full.text
 job_sal_format = (''.join([ch for ch in job_sal if ch not in [' ', '\t', '\n']]))
 
-
-post = {
+job_description = {
     "job_head_desc": job_head_desc,
-    "job_description": job_descrip,
+    "job_descrip": job_descrip,
     "job_head_candid":job_head_candid,
     "job_candidate": job_candidate,
     "job_head_requirement": job_head_requir,
     "job_requirement": job_requirement,
     "job_head_salary": job_head_salary,
     "job_salary_format": job_sal_format,
+    }   
+
+post = {
+    "job_description": job_description,
     "post_id": post_id,
     "post_url": post_url, 
     "img_url": img_url,
