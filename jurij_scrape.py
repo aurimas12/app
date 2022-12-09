@@ -14,16 +14,21 @@ articles = soup.find_all('article')
 print(f"amount of post:", len(articles)) 
 
 
-article = articles[25]
+article = articles[24]
 post_id = article.find('div', {'class': 'jobadlist_ad_anchor'}).get("id")[6:]
 post_url = article.find("a", {"class": "list_a can_visited list_a_has_logo"}).attrs['href'] 
 img_url = article.find('img').get('src')
 position = article.find('h3').text
 company = article.find('span', {'class': 'dib mt5'}).text
 post_date = article.find('span', {'class': 'txt_list_2'}).text
-salary = article.find('span', {'class': 'salary_amount'}).text
 city = article.find('span', {'class': 'list_city'}).text
 
+try:
+    salary = article.find('span', {'class': 'salary_amount'}).text
+except Exception as e:
+    salary = "0"
+        
+        
 salary_split = salary.rsplit('-')
 salary_int =list(map(int, salary_split))
   
@@ -50,7 +55,10 @@ job_salary_full = job_full[3]
 job_sal= job_salary_full.text
 job_sal_format = (''.join([ch for ch in job_sal if ch not in [' ', '\t', '\n']]))
 
-job_description = {
+
+
+
+post = {
     "job_head_desc": job_head_desc,
     "job_descrip": job_descrip,
     "job_head_candid":job_head_candid,
@@ -59,10 +67,6 @@ job_description = {
     "job_requirement": job_requirement,
     "job_head_salary": job_head_salary,
     "job_salary_format": job_sal_format,
-    }   
-
-post = {
-    "job_description": job_description,
     "post_id": post_id,
     "post_url": post_url, 
     "img_url": img_url,
@@ -74,7 +78,7 @@ post = {
     "time_public": post_date
         }
 
-# print(post)
+print(post)
 print('Post scraping done.')
 
 
