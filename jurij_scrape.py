@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import json
 import time
-from srap_preprocessing import upload_time, count_time
+from srap_preprocessing import upload_time, count_time, create_json
 
 
 start_time = time.perf_counter() 
@@ -14,7 +14,7 @@ articles = soup.find_all('article')
 print(f"amount of post:", len(articles)) 
 
 
-article = articles[25]
+article = articles[21]
 post_id = article.find('div', {'class': 'jobadlist_ad_anchor'}).get("id")[6:]
 post_url = article.find("a", {"class": "list_a can_visited list_a_has_logo"}).attrs['href'] 
 img_url = article.find('img').get('src')
@@ -81,9 +81,6 @@ print('Post scraping done.')
 stop_time = time.perf_counter()   
 
 
-# with open("cv_bankas_scrap.json", "a") as file:
-#     json.dump(post, file, indent=2)
-#     print(f'Informacija irasyta cv_bankas_scrap.json faile')
-
+print(create_json(post))
 
 print(f'web information extraction time',count_time(start_time, stop_time))
