@@ -1,12 +1,12 @@
 import time
-
+from pathlib import Path
+import json
      
 def upload_time(post_date):
      
     current_time = round(time.time())
     post_date_split = post_date.split()
     data_number = post_date_split[1]
-    data_value = post_date_split[2]
     current_time = round(time.time())
     time_values = ['d.', 'val.', 'min.']
 
@@ -27,8 +27,22 @@ def upload_time(post_date):
                 post_upload = current_time - temp_min
                 return post_upload
     else:
-        print(f'value : {data_value} not in time_values')
+        return current_time
+  
+  
+def create_json(posts_list):
+    json_file = "data.json"
+    path = Path(json_file)
     
+    if path.is_file():
+        with open("data.json", "a") as file:
+            json.dump(posts_list, file, indent=2)
+            return f'The information is added to the <{json_file}> file'
+    else:
+        with open("data.json", "w") as file:
+            json.dump(posts_list, file, indent=2)
+            return f'created <{json_file}> file and Information written to it'
+
 
 def count_time(start, stop):
     duration = (stop - start)
