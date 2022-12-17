@@ -27,7 +27,7 @@ for article in articles:
         salary_split = salary.split('-')
         salary_int =list(map(int, salary_split))
     except Exception:
-        salary = " "
+        salary = "0"
         
         
     try:
