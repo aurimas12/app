@@ -1,3 +1,5 @@
+import requests
+from bs4 import BeautifulSoup
 import time
 from pathlib import Path
 import json
@@ -70,7 +72,36 @@ def create_json(posts_list):
         with open("data.json", "w") as file:
             json.dump(posts_list, file, indent=2)
             return f'created <{json_file}> file and Information written to it'
+
+
+def count_pages():
+    page_number = 1
+    with requests.Session() as rs:
+        while True:
+            req = rs.get(f'https://www.cvbankas.lt/?page={page_number}')
+            soup = BeautifulSoup(req.content, 'lxml')
         
+            if soup.select_one('[rel=next]') is None:
+                break
+            page_number += 1
+    return page_number
+
+
+def count_posts():
+    amount_post = 0
+    page_number = 1
+    with requests.Session() as rs:
+        while True:
+            req = rs.get(f'https://www.cvbankas.lt/?page={page_number}')
+            soup = BeautifulSoup(req.content, 'lxml')
+            articles = soup.find_all('article')
+            amount_post += len(articles)
+        
+            if soup.select_one('[rel=next]') is None:
+                break
+            page_number += 1  
+    return amount_post            
+ 
         
 def count_time(start, stop):
     duration = (stop - start)

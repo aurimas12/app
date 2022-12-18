@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import json
 import time
-from srap_preprocessing import upload_time, count_time, try_salary, try_applicants, try_post_date, create_json
+from srap_preprocessing import upload_time, count_time, try_salary, try_applicants, try_post_date, count_pages, count_posts, create_json
 
 
 start_time = time.perf_counter() 
@@ -12,6 +12,9 @@ soup = BeautifulSoup(source, 'lxml')
 
 articles = soup.find_all('article')
 print(f"amount of post:", len(articles)) 
+
+print(f'amount of posts', count_posts())
+print(f'number of pages', count_pages())
 
 
 posts_list = []
