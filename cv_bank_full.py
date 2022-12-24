@@ -8,35 +8,23 @@ from srap_preprocessing import upload_time, count_time, try_salary, try_applican
 import pandas as pd
 from pathlib import Path 
 
-start_time = time.perf_counter() 
 
+start_time = time.perf_counter() 
 time_now = time.strftime("%Y-%m-%d %H:%M:%S")
 
 count_all_posts = count_posts()
 count_all_pages = count_pages()
-# print(type(count_all_pages))
 print(count_all_pages)
 
 
-for page in range(1, count_all_pages):
-    print(page)
+posts_list = []
+for page in range(1, count_all_pages+1):
     full_source = requests.get('https://www.cvbankas.lt/?page={page}')
     full_soup = BeautifulSoup(full_source.text, 'lxml')
     articles = full_soup.find_all('article')
-    # x +=  len(all_posts)
-    # print(f"amount of post:", len(articles))
-
     print (f"https://www.cvbankas.lt/?page={page}")
     
-# articles = soup.find_all('article')
-    # print(f"amount of post in search of python:", len(articles)) 
-
-    # count_all_posts = count_posts()
-# print(f'amount of posts', count_posts())
-# print(f'number of pages', count_pages())
-
-
-    posts_list = []
+   
     for article in articles:
         post_id = article.find('div', {'class': 'jobadlist_ad_anchor'}).get("id")[6:]
         post_url = article.find("a", {"class": "list_a can_visited list_a_has_logo"}).attrs['href'] 
@@ -66,45 +54,38 @@ for page in range(1, count_all_pages):
             "city": city,
             "upload_post": upload_post,
             "time_public": post_date
-                }
+            }
         
         posts_list.append(post_data)
     
      
-stop_time = time.perf_counter() 
+stop_time_lap1 = time.perf_counter() 
     
 data_csv = {
         'website': ["www.cvbankas.lt"],
-        'extract_time': [count_time(start_time, stop_time)],
+        'extract_time': [count_time(start_time, stop_time_lap1)],
         'total_posts': [count_all_posts],
         'posts': [posts_list],
         'created_date': [time_now]
-    }
+        }
    
     
 df = pd.DataFrame(data_csv, columns=['website', 'extract_time', 'total_posts', 'posts', 'created_date'])
-# Printing DataFrame
 # print(df)
-    # data = data.append({'website', 'extract_time', 'total_posts', 'posts', 'created_date' })
 filepath = Path('data/data.csv')  
 filepath.parent.mkdir(parents=True, exist_ok=True)  
-csv_data = df.to_csv('data/data.csv', index=False, mode="a") #, header=False) # index=False, header=False, mode="a")     
-
-# print(posts_list)
+csv_data = df.to_csv('data/data.csv', index=False, mode="a", header=False) # index=False, header=False, mode="a")     
 
 
-# for i in range(len(posts_list)):
-#     print()
-#     print(i, posts_list[i])
-
-print('Post scraping done.')
-
-# stop_time = time.perf_counter()   
+print('data scraping done.')
 
 # print(create_json(posts_list))
-x = count_time(start_time, stop_time)
-z = strftime("%Hh:%Mm:%Ss", gmtime(x))
-print(f'web information extraction time', z)
+
+stop_time_lap2 = time.perf_counter() 
+
+stopwatch_time = count_time(start_time, stop_time_lap2)
+stopwatch_strf = strftime("%Hh:%Mm:%Ss", gmtime(stopwatch_time))
+print(f'web info extraction time: {stopwatch_strf}')
 
 new_df = pd.read_csv('data/data.csv')
 print(new_df)
