@@ -3,10 +3,30 @@ import requests
 import json
 import time
 from srap_preprocessing import upload_time, count_time, try_salary, try_applicants, try_post_date, count_pages, count_posts, create_json
+import pandas as pd
+from pathlib import Path 
 
 
 start_time = time.perf_counter() 
-                         
+
+data = {
+    'website': [],
+    'extract_time': [],
+    'total_posts': [],
+    'posts': [],
+    'created_date': []
+    }
+
+df = pd.DataFrame(data, columns=['website', 'extract_time', 'total_posts', 'posts', 'created_date']) 
+    
+filepath = Path('data/data.csv')  
+filepath.parent.mkdir(parents=True, exist_ok=True)  
+csv_data = df.to_csv('data/data.csv', index=False) 
+ 
+new_df = pd.read_csv('data/data.csv')
+print(new_df)                   
+                   
+                   
 source = requests.get('https://www.cvbankas.lt/?location=606&padalinys%5B%5D=76&keyw=python').text
 soup = BeautifulSoup(source, 'lxml')
 
