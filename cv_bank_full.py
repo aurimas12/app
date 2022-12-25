@@ -62,11 +62,11 @@ for page in range(1, count_all_pages+1):
 stop_time_lap1 = time.perf_counter() 
     
 data_csv = {
-        'website': ["www.cvbankas.lt"],
-        'extract_time': [count_time(start_time, stop_time_lap1)],
-        'total_posts': [count_all_posts],
+        'website': "www.cvbankas.lt",
+        'extract_time': count_time(start_time, stop_time_lap1),
+        'total_posts': count_all_posts,
         'posts': [posts_list],
-        'created_date': [time_now]
+        'created_date': time_now
         }
    
     
