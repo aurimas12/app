@@ -14,7 +14,7 @@ time_now = time.strftime("%Y-%m-%d %H:%M:%S")
 
 count_all_posts = count_posts()
 count_all_pages = count_pages()
-print(count_all_pages)
+print(f'total pages: {count_all_pages}')
 
 
 posts_list = []
@@ -25,7 +25,7 @@ for page in range(1, count_all_pages+1):
     print (f"https://www.cvbankas.lt/?page={page}")
     
    
-    for article in articles:
+    for article in articles[1:2]:
         post_id = article.find('div', {'class': 'jobadlist_ad_anchor'}).get("id")[6:]
         post_url = article.find("a", {"class": "list_a can_visited list_a_has_logo"}).attrs['href'] 
         img_url = article.find('img').get('src')
@@ -72,9 +72,12 @@ data_csv = {
     
 df = pd.DataFrame(data_csv, columns=['website', 'extract_time', 'total_posts', 'posts', 'created_date'])
 # print(df)
-filepath = Path('data/data.csv')  
-filepath.parent.mkdir(parents=True, exist_ok=True)  
-csv_data = df.to_csv('data/data.csv', index=False, mode="a", header=False) # index=False, header=False, mode="a")     
+filepath = Path('data/data.csv')     
+if filepath.exists():
+    data = df.to_csv('data/data.csv', index=False, mode="a", header=False)
+else:
+    filepath.parent.mkdir(parents=True, exist_ok=True)
+    data = df.to_csv('data/data.csv', index=False, mode="a")
 
 
 print('data scraping done.')
