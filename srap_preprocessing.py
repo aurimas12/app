@@ -59,20 +59,6 @@ def try_applicants(post_soup):
         applicants_value = "0"
     return applicants_value  
 
-  
-def create_json(posts_list):
-    json_file = "data.json"
-    path = Path(json_file)
-    
-    if path.is_file():
-        with open("data.json", "a") as file:
-            json.dump(posts_list, file, indent=2)
-            return f'The information is added to the <{json_file}> file'
-    else:
-        with open("data.json", "w") as file:
-            json.dump(posts_list, file, indent=2)
-            return f'created <{json_file}> file and Information written to it'
-
 
 def count_pages():
     page_number = 1
@@ -100,9 +86,23 @@ def count_posts():
             if soup.select_one('[rel=next]') is None:
                 break
             page_number += 1  
-    return amount_post            
- 
-        
+    return amount_post 
+     
+           
+def create_json(posts_list):
+    json_file = "data.json"
+    path = Path("data/" + json_file)
+    
+    if path.is_file():
+        with open("data/" + json_file, "a") as file:
+            json.dump(posts_list, file, indent=2)
+            return f'The information is added to the <{json_file}> file'
+    else:
+        with open("data/" + json_file, "w") as file:
+            json.dump(posts_list, file, indent=2)
+            return f'created <{json_file}> file and Information written to it'
+    
+         
 def count_time(start, stop):
     duration = (stop - start)
     return round(duration, 2)
