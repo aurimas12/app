@@ -1,6 +1,5 @@
 class Post:
-    def __init__(self, count_all_posts, 
-                 count_all_pages, 
+    def __init__(self,
                  post_id, 
                  post_url, 
                  position, 
@@ -11,8 +10,6 @@ class Post:
                  post_description_full, 
                  applicants_value, 
                  time_now):
-        self.count_all_posts = count_all_posts
-        self.count_all_pages = count_all_pages
         self.post_description_full = post_description_full
         self.post_id = post_id
         self.post_url = post_url
