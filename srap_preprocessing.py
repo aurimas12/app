@@ -89,8 +89,8 @@ def count_posts():
     return amount_post 
      
            
-def create_json(posts_list):
-    json_file = "data.json"
+def create_json(posts_list, json_file):
+   
     path = Path("data/" + json_file)
     
     if path.is_file():

@@ -72,17 +72,18 @@ data_csv = {
     
 df = pd.DataFrame(data_csv, columns=['website', 'extract_time', 'total_posts', 'posts', 'created_date'])
 # print(df)
-filepath = Path('data/data.csv')     
+file_csv = 'data.csv'
+filepath = Path('data/' + file_csv)     
 if filepath.exists():
-    data = df.to_csv('data/data.csv', index=False, mode="a", header=False)
+    data = df.to_csv('data/' + file_csv, index=False, mode="a", header=False)
 else:
     filepath.parent.mkdir(parents=True, exist_ok=True)
-    data = df.to_csv('data/data.csv', index=False, mode="a")
+    data = df.to_csv('data/' + file_csv, index=False, mode="a")
 
 
 print('data scraping done.')
 
-# print(create_json(posts_list))
+# print(create_json(posts_list, json_file = "data.json"))
 
 stop_time_lap2 = time.perf_counter() 
 
