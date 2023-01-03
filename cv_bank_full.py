@@ -73,12 +73,12 @@ data_csv = {
 df = pd.DataFrame(data_csv, columns=['website', 'extract_time', 'total_posts', 'posts', 'created_date'])
 # print(df)
 file_csv = 'data.csv'
-filepath = Path('data/' + file_csv)     
-if filepath.exists():
-    data = df.to_csv('data/' + file_csv, index=False, mode="a", header=False)
+file_path = Path('data/' + file_csv)     
+if file_path.exists():
+    data = df.to_csv(file_path, index=False, mode="a", header=False)
 else:
-    filepath.parent.mkdir(parents=True, exist_ok=True)
-    data = df.to_csv('data/' + file_csv, index=False, mode="a")
+    file_path.parent.mkdir(parents=True, exist_ok=True)
+    data = df.to_csv(file_path, index=False, mode="a")
 
 
 print('data scraping done.')
@@ -91,5 +91,5 @@ stopwatch_time = count_time(start_time, stop_time_lap2)
 stopwatch_strf = strftime("%Hh:%Mm:%Ss", gmtime(stopwatch_time))
 print(f'web info extraction time: {stopwatch_strf}')
 
-new_df = pd.read_csv('data/data.csv')
+new_df = pd.read_csv(file_path)
 print(new_df)
