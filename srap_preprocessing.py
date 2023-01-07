@@ -1,8 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 import time
-from pathlib import Path
-import json
 
 
 def try_post_date(article):
@@ -88,20 +86,6 @@ def count_posts():
             page_number += 1  
     return amount_post 
      
-           
-def create_json(posts_list):
-    json_file = "data.json"
-    path = Path("data/" + json_file)
-    
-    if path.is_file():
-        with open("data/" + json_file, "a") as file:
-            json.dump(posts_list, file, indent=2)
-            return f'The information is added to the <{json_file}> file'
-    else:
-        with open("data/" + json_file, "w") as file:
-            json.dump(posts_list, file, indent=2)
-            return f'created <{json_file}> file and Information written to it'
-    
          
 def count_time(start, stop):
     duration = (stop - start)
