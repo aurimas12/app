@@ -77,12 +77,12 @@ json_file = "data.json"
 
 print(create_csv(csv_file, df))
 print(create_json(posts_list, json_file))
+print(read_csv(csv_file))
+print(get_df_dimension(csv_file))  
 
 stop_time = time.perf_counter() 
 stopwatch_time = count_time(start_time, stop_time)
 stopwatch_strf = strftime("%Hh:%Mm:%Ss", gmtime(stopwatch_time))
 print(f'web information extraction time', stopwatch_strf)
 
-print(read_csv(csv_file))
-print(get_df_dimension(csv_file))  
 print('Posts scraping done!')
