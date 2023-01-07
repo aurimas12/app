@@ -6,7 +6,7 @@ from time import gmtime
 from time import strftime
 from srap_preprocessing import upload_time, count_time, try_salary, try_applicants, try_post_date, count_pages, count_posts
 import pandas as pd
-from utils.file import create_csv, read_csv, create_json 
+from utils.file import create_csv, read_csv, create_json, get_df_dimension
 from tqdm import tqdm
 
 
@@ -84,5 +84,5 @@ stopwatch_strf = strftime("%Hh:%Mm:%Ss", gmtime(stopwatch_time))
 print(f'web information extraction time', stopwatch_strf)
 
 print(read_csv(csv_file))
-  
+print(get_df_dimension(csv_file))  
 print('Posts scraping done!')

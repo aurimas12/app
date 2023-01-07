@@ -4,7 +4,7 @@ import pandas as pd
 
 
 def create_json(posts_list, json_file):
-    path = Path("data/" + json_file)
+    path = Path(f"data/{json_file}")
     if path.is_file():
         with open(path, "a") as file:
             json.dump(posts_list, file, indent=2)
@@ -16,7 +16,7 @@ def create_json(posts_list, json_file):
         
               
 def create_csv(csv_file, df):
-    file_path = Path('data/' + csv_file)
+    file_path = Path(f'data/{csv_file}')
     if file_path.exists():
         df.to_csv(file_path, index=False, mode="a", header=False)    
         return f'The data is added to the <{csv_file}> file.'
@@ -26,7 +26,13 @@ def create_csv(csv_file, df):
         return f'created <{csv_file}> file and data written to it'
 
 
-def read_csv(csv_file):
-    file_path = Path('data/' + csv_file)
+def get_df_dimension(csv_file):
+    file_path = Path(f'data/{csv_file}')
     read_df = pd.read_csv(file_path)
-    return read_df  
+    return csv_file, 'Rows:', len(read_df), 'Columns:', len(list(read_df.columns))
+
+
+def read_csv(csv_file):
+    file_path = Path(f'data/{csv_file}')
+    read_df = pd.read_csv(file_path)
+    return read_df.head(6) 
