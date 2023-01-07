@@ -4,28 +4,28 @@ import json
 import time
 from time import gmtime
 from time import strftime
-from srap_preprocessing import upload_time, count_time, try_salary, try_applicants, try_post_date, create_json,count_pages, count_posts
+from srap_preprocessing import upload_time, count_time, try_salary, try_applicants, try_post_date, count_pages, count_posts
 import pandas as pd
-from pathlib import Path 
+from utils.file import create_csv, read_csv, create_json 
+from tqdm import tqdm
 
 
 start_time = time.perf_counter() 
 time_now = time.strftime("%Y-%m-%d %H:%M:%S")
 
 count_all_posts = count_posts()
+print(f'total posts: {count_all_posts}')
 count_all_pages = count_pages()
 print(f'total pages: {count_all_pages}')
 
 
 posts_list = []
-for page in range(1, count_all_pages+1):
+for page in tqdm(range(1, count_all_pages+1), ncols=100, desc = 'Pages scraping progress'):
     full_source = requests.get('https://www.cvbankas.lt/?page={page}')
     full_soup = BeautifulSoup(full_source.text, 'lxml')
     articles = full_soup.find_all('article')
-    print (f"https://www.cvbankas.lt/?page={page}")
-    
    
-    for article in articles[1:2]:
+    for article in tqdm(articles, ncols=100, desc = 'Posts scraping progress', leave=False):
         post_id = article.find('div', {'class': 'jobadlist_ad_anchor'}).get("id")[6:]
         post_url = article.find("a", {"class": "list_a can_visited list_a_has_logo"}).attrs['href'] 
         img_url = article.find('img').get('src')
@@ -71,25 +71,18 @@ data_csv = {
    
     
 df = pd.DataFrame(data_csv, columns=['website', 'extract_time', 'total_posts', 'posts', 'created_date'])
-# print(df)
-file_csv = 'data.csv'
-file_path = Path('data/' + file_csv)     
-if file_path.exists():
-    data = df.to_csv(file_path, index=False, mode="a", header=False)
-else:
-    file_path.parent.mkdir(parents=True, exist_ok=True)
-    data = df.to_csv(file_path, index=False, mode="a")
 
+csv_file = 'data.csv'
+json_file = "data.json"
 
-print('data scraping done.')
+print(create_csv(csv_file, df))
+print(create_json(posts_list, json_file))
 
-# print(create_json(posts_list, json_file = "data.json"))
-
-stop_time_lap2 = time.perf_counter() 
-
-stopwatch_time = count_time(start_time, stop_time_lap2)
+stop_time = time.perf_counter() 
+stopwatch_time = count_time(start_time, stop_time)
 stopwatch_strf = strftime("%Hh:%Mm:%Ss", gmtime(stopwatch_time))
-print(f'web info extraction time: {stopwatch_strf}')
+print(f'web information extraction time', stopwatch_strf)
 
-new_df = pd.read_csv(file_path)
-print(new_df)
+print(read_csv(csv_file))
+  
+print('Posts scraping done!')
