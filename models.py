@@ -41,7 +41,7 @@ class Post:
 
 
     def __str__(self):
-        return f"post_description_full: {self.post_description_full}, post_id: {self.post_id}, post_url = {self.post_url}, position: {self.position}, company: {self.company}, city: {self.city}, salary: {self.salary}, upload_post: {self.upload_post}, post_date: {self.post_date}, applicants_value: {self.applicants_value}, time_now: {self.time_now}"
+        return f"post_description_full: {self.description_full}, post_id: {self.id}, post_url = {self.url}, position: {self.position}, company: {self.company}, city: {self.city}, salary: {self.salary}, upload_post: {self.upload_post}, post_date: {self.post_date}, applicants_value: {self.applicants_value}, time_now: {self.time_now}"
      
 
 post = Post('1','2','3','4','5','6','7','8','9','10','11')
