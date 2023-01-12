@@ -6,7 +6,7 @@ from time import gmtime
 from time import strftime
 from srap_preprocessing import upload_time, count_time, try_salary, try_applicants, try_post_date, count_pages, count_posts
 import pandas as pd
-from utils.file import create_csv, read_csv, create_json, get_df_dimension
+from utils.file import create_csv, read_csv, create_json
 from tqdm import tqdm
 
 
@@ -76,9 +76,9 @@ csv_file = 'data.csv'
 json_file = "data.json"
 
 print(create_csv(csv_file, df))
-print(create_json(posts_list, json_file))
+# print(create_json(posts_list, json_file))
 print(read_csv(csv_file))
-print(get_df_dimension(csv_file))  
+ 
 
 stop_time = time.perf_counter() 
 stopwatch_time = count_time(start_time, stop_time)

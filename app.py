@@ -1,28 +1,55 @@
+from bs4 import BeautifulSoup
+import requests
+
 
 class Crawler:
-    def __init__(self, url):
+    def __init__(self, url='https://www.cvbankas.lt/?page='):
         self.url = url
-    
-    
-    def download_url(self, url):
-        pass
-    
-    
-    def download_content(self, page):
-        pass
-    
-    
-    def get_last_page_index(self, page):
-        pass
-    
-    
+        # self.header = HEADERS
+        self.pages = []
+        self. data = []
+
+    def download_url(self):
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36'}
+        # response = requests.get(url.strip(), headers=headers, timeout=1)
+        response = requests.get(self.url, headers=headers, timeout=1)
+        # return response
+        print(response)
+
+    def download_content(self):
+        # for page in range(1, page_number +1):
+        page_number = x.get_last_page_index()
+        page = 1
+        while page != page_number:
+            source = requests.get('https://www.cvbankas.lt/?page={page}')
+            full_soup = BeautifulSoup(source.text, 'lxml')
+            articles = full_soup.find_all('article')
+        return articles
+
+    def get_last_page_index(self):
+        page_number = 1
+        with requests.Session() as rs:
+            while True:
+                req = rs.get(f'https://www.cvbankas.lt/?page={page_number}')
+                soup = BeautifulSoup(req.content, 'lxml')
+                if soup.select_one('[rel=next]') is None:
+                    break
+                page_number += 1
+        return page_number
+
     def crawl(self, url):
         pass
-    
-    
+
     def run(self):
         pass
 
 
+x = Crawler()
+# print(x.download_url())
+# print(x.get_last_page_index())
+print(x.download_content())
+
 if __name__ == '__main__':
+    # Crawler(url = https://www.cvbankas.lt).run()
     pass
