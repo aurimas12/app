@@ -21,7 +21,7 @@ print(f'total pages: {count_all_pages}')
 
 posts_list = []
 for page in tqdm(range(1, count_all_pages+1), ncols=100, desc = 'Pages scraping progress'):
-    full_source = requests.get('https://www.cvbankas.lt/?page={page}')
+    full_source = requests.get(f'https://www.cvbankas.lt/?page={page}')
     full_soup = BeautifulSoup(full_source.text, 'lxml')
     articles = full_soup.find_all('article')
    
