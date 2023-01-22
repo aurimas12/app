@@ -1,17 +1,16 @@
 from bs4 import BeautifulSoup
 import requests
 from tqdm import tqdm
-from srap_preprocessing import upload_time, count_time, try_salary, try_applicants, try_post_date, stopwatch_time, count_posts
+from srap_preprocessing import upload_time, count_time, try_salary, try_applicants, try_post_date, count_posts
 import time
 from models import Post
 import pandas as pd
-from utils.file import create_csv, read_csv, create_json
+from utils.file import create_csv, read_csv
 
 class Crawler:
     def __init__(self, url):
         self.url = url
         self.csv_file = 'data.csv'
-        self.json_file = 'data.json'
         self.posts = []
         self.headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36'}
 
@@ -82,18 +81,14 @@ class Crawler:
     def run(self):
         start_time = time.perf_counter()
         self.time_now = time.strftime("%Y-%m-%d %H:%M:%S")
-        print(self.time_now)
         self.count_posts = count_posts()
         print('total posts:', self.count_posts)
         self.crawl()
         stop_time = time.perf_counter()
         self.count_time = count_time(start_time, stop_time)
-        # print(create_json(self.posts, self.json_file))
-        print(create_csv(self.csv_file, self.create_df()))
-        print(read_csv(self.csv_file))
-        print(len(self.posts))
-        print('web information extraction time', stopwatch_time(start_time, stop_time))
-
+        create_csv(self.csv_file, self.create_df())
+        read_csv(self.csv_file)
+  
 
 if __name__ == '__main__':
     Crawler(url='https://www.cvbankas.lt?page=').run()

@@ -90,8 +90,3 @@ def count_time(start, stop):
     return round(duration, 2)
 
 
-def stopwatch_time(start, stop):
-    st = count_time(start, stop)
-    st_strf = strftime("%Hh:%Mm:%Ss", gmtime(st))
-    return st_strf
-
