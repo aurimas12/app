@@ -1,11 +1,12 @@
 from bs4 import BeautifulSoup
 import requests
 from tqdm import tqdm
-from srap_preprocessing import upload_time, count_time, try_salary, try_applicants, try_post_date, count_posts
 import time
 from models import Post
 import pandas as pd
 from utils.file import create_csv, read_csv
+from utils.count_time import upload_time, count_time
+from utils.try_data_scrap import try_salary, try_applicants, try_post_date
 
 class Crawler:
     def __init__(self, url):
@@ -22,11 +23,11 @@ class Crawler:
 
     def download_content(self, pages_index):
         print('total pages:', pages_index) 
-        for page in tqdm(range(1, pages_index+1), ncols=100, colour="green", desc='Pages scraping progress'):
+        for page in tqdm(range(1, 2), ncols=100, colour="green", desc='Pages scraping progress'):
             full_source = requests.get(f'{self.url}{page}', headers=self.headers)
             full_soup = BeautifulSoup(full_source.content, 'lxml')
             articles = full_soup.find_all('article')
-            for article in tqdm(articles, ncols=100, colour="yellow", desc='Posts scraping progress', leave=False):
+            for article in tqdm(articles[3:15], ncols=100, colour="yellow", desc='Posts scraping progress', leave=False):
                 post_id = article.find('div', {'class': 'jobadlist_ad_anchor'}).get("id")[6:]
                 post_url = article.find("a", {"class": "list_a can_visited list_a_has_logo"}).attrs['href']
                 img_url = article.find('img').get('src')
@@ -64,7 +65,7 @@ class Crawler:
         data_csv = {
             'website': "www.cvbankas.lt",
             'extract_time': self.count_time,
-            'total_posts': self.count_posts,
+            'total_posts': len(self.posts),
             'posts': [self.posts],
             'created_date': self.time_now
         }
@@ -81,13 +82,11 @@ class Crawler:
     def run(self):
         start_time = time.perf_counter()
         self.time_now = time.strftime("%Y-%m-%d %H:%M:%S")
-        self.count_posts = count_posts()
-        print('total posts:', self.count_posts)
         self.crawl()
         stop_time = time.perf_counter()
         self.count_time = count_time(start_time, stop_time)
         create_csv(self.csv_file, self.create_df())
-        read_csv(self.csv_file)
+        print(read_csv(self.csv_file))
   
 
 if __name__ == '__main__':
