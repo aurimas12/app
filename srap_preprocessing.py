@@ -1,7 +1,8 @@
+import time
 import requests
 from bs4 import BeautifulSoup
-import time
-
+from time import strftime
+from time import gmtime
 
 def try_post_date(article):
     try:
@@ -12,7 +13,6 @@ def try_post_date(article):
 
     
 def upload_time(post_date):
-     
     current_time = round(time.time())
     post_date_split = post_date.split()
     data_number = post_date_split[1]
@@ -57,14 +57,13 @@ def try_applicants(post_soup):
         applicants_value = "0"
     return applicants_value  
 
-
+        
 def count_pages():
     page_number = 1
     with requests.Session() as rs:
         while True:
             req = rs.get(f'https://www.cvbankas.lt/?page={page_number}')
             soup = BeautifulSoup(req.content, 'lxml')
-        
             if soup.select_one('[rel=next]') is None:
                 break
             page_number += 1
@@ -80,14 +79,14 @@ def count_posts():
             soup = BeautifulSoup(req.content, 'lxml')
             articles = soup.find_all('article')
             amount_post += len(articles)
-        
             if soup.select_one('[rel=next]') is None:
                 break
             page_number += 1  
-    return amount_post 
-     
-         
+    return amount_post    
+        
+           
 def count_time(start, stop):
     duration = (stop - start)
     return round(duration, 2)
+
 

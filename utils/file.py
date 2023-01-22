@@ -26,12 +26,6 @@ def create_csv(csv_file, df):
         return f'created <{csv_file}> file and data written to it'
 
 
-def get_df_dimension(csv_file):
-    file_path = Path(f'data/{csv_file}')
-    read_df = pd.read_csv(file_path)
-    return csv_file, 'Rows:', len(read_df), 'Columns:', len(list(read_df.columns))
-
-
 def read_csv(csv_file):
     file_path = Path(f'data/{csv_file}')
     read_df = pd.read_csv(file_path)
