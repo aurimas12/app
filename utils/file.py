@@ -29,4 +29,4 @@ def create_csv(csv_file, df):
 def read_csv(csv_file):
     file_path = Path(f'data/{csv_file}')
     read_df = pd.read_csv(file_path)
-    return read_df.head(6) 
+    return read_df.head() 
