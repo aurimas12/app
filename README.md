@@ -8,5 +8,5 @@ Saved data output file is data.csv
 This app collects this points:
 'extract_time',
 'total_posts',
-'created_date'
+'created_date',
 'posts': 'post_id', 'post_url', 'imag_url', 'position', 'company', 'city', 'salary', 'post_date', 'upload_post', 'applicants_value', 'post_description
