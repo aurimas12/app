@@ -1,12 +1,6 @@
 Web crawler app
 
-This app collects this points:
-'extract_time',
-'total_posts',
-'created_date',
-'posts': 'post_id', 'post_url', 'imag_url', 'position', 'company', 'city', 'salary', 'post_date', 'upload_post', 'applicants_value', 'post_description
-
-# www.cvbankas.lt crawler app
+## www.cvbankas.lt crawler app
 
 > Live demo [_here_](https://www.example.com). <!-- If you have the project hosted somewhere, include the link here. -->
 
@@ -29,6 +23,12 @@ This app collects this points:
 - Scaning website is www.cvbankas.lt
 - A crawler is a software robot that scans and downloads all posts from all pages from website and save data.
 - Saved data output file is data.csv
+
+-This app collects this points:
+-'extract_time',
+-'total_posts',
+-'created_date',
+-'posts': 'post_id', 'post_url', 'imag_url', 'position', 'company', 'city', 'salary', 'post_date', 'upload_post', 'applicants_value', 'post_description
 
 <!-- You don't have to answer all the questions - just the ones relevant to your project. -->
 
