@@ -26,7 +26,9 @@ def create_csv(csv_file, df):
         return f'created <{csv_file}> file and data written to it'
 
 
-def read_csv(csv_file):
+def return_posts_df(csv_file):
     file_path = Path(f'data/{csv_file}')
-    read_df = pd.read_csv(file_path)
-    return read_df.head() 
+    df = pd.read_csv(file_path)
+    f = df['posts']
+    df2 =pd.DataFrame(data=f, columns=["posts"])
+    return df2
