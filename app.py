@@ -4,7 +4,7 @@ from tqdm import tqdm
 import time
 from models import Post
 import pandas as pd
-from utils.file import create_csv, read_csv
+from utils.file import create_csv, read_csv, return_posts_df, return_companys_uniq_df
 from utils.count_time import upload_time, count_time
 from utils.try_data_scrap import try_salary, try_applicants, try_post_date
 
@@ -87,6 +87,8 @@ class Crawler:
         self.count_time = count_time(start_time, stop_time)
         create_csv(self.csv_file, self.create_df())
         print(read_csv(self.csv_file))
+        # create_csv('posts.csv', return_posts_df(self.csv_file))
+        # print(return_companys_uniq_df(return_posts_df(self.csv_file)))
   
 
 if __name__ == '__main__':
