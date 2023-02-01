@@ -26,9 +26,27 @@ def create_csv(csv_file, df):
         return f'created <{csv_file}> file and data written to it'
 
 
+def read_csv(csv_file):
+    file_path = Path(f'data/{csv_file}')
+    read_df = pd.read_csv(file_path)
+    return read_df.head() 
+
+
 def return_posts_df(csv_file):
     file_path = Path(f'data/{csv_file}')
     df = pd.read_csv(file_path)
     f = df['posts']
     df2 =pd.DataFrame(data=f, columns=["posts"])
     return df2
+
+
+def return_companys_uniq_df(df2):
+    company_lists = []
+    for line in range(len(pd.DataFrame(df2))):
+        line_list = list(eval(df2['posts'][line]))
+        values = [i['company'] for i in line_list]
+        company_lists.append(values)
+    company_list = sum(company_lists, [])
+    company_set_dict = set(company_list)
+    df_companys = pd.DataFrame(data=company_set_dict, columns=["company"])
+    return df_companys
