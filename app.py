@@ -27,7 +27,7 @@ class Crawler:
             full_source = requests.get(f'{self.url}{page}', headers=self.headers)
             full_soup = BeautifulSoup(full_source.content, 'lxml')
             articles = full_soup.find_all('article')
-            for article in tqdm(articles[2:3], ncols=100, colour="yellow", desc='Posts scraping progress', leave=False):
+            for article in tqdm(articles[3:4], ncols=100, colour="yellow", desc='Posts scraping progress', leave=False):
                 post_id = article.find('div', {'class': 'jobadlist_ad_anchor'}).get("id")[6:]
                 post_url = article.find("a", {"class": "list_a can_visited list_a_has_logo"}).attrs['href']
                 img_url = article.find('img').get('src')
@@ -86,8 +86,10 @@ class Crawler:
         stop_time = time.perf_counter()
         self.count_time = count_time(start_time, stop_time)
         create_csv(self.csv_file, self.create_df())
-        print(read_csv(self.csv_file))
-        print(create_companies_df(read_csv(self.csv_file)))
+        data_df = read_csv(self.csv_file)
+        companies_df = read_csv('companies.csv')
+        print(create_companies_df(data_df, companies_df))
+        print(data_df)
         
 
 if __name__ == '__main__':
