@@ -22,11 +22,29 @@ def create_csv(csv_file, df):
         return f'The data is added to the <{csv_file}> file.'
     else:
         file_path.parent.mkdir(parents=True, exist_ok=True)
-        df.to_csv(file_path, index=False, mode="a", header=True)
+        df.to_csv(file_path, index=False, mode="w", header=True)
         return f'created <{csv_file}> file and data written to it'
 
 
 def read_csv(csv_file):
     file_path = Path(f'data/{csv_file}')
     read_df = pd.read_csv(file_path)
-    return read_df.head() 
+    return read_df 
+
+
+def create_companies_df(data_df, companies_df):
+    companys_lists = []
+    new_companies_count = 0 
+    for line in range(len(data_df)):
+        line_posts=eval(data_df['posts'][line])
+        for post in range(len(line_posts)):
+            if line_posts[post]['company'] not in [i['company'] for i in companys_lists]:
+                companys_lists.append({'company': line_posts[post]['company'], 'img_url': line_posts[post]['img_url']})
+
+    for row in companys_lists:
+        if not (companies_df['company'] == row['company']).any():
+            new_companies_count += 1
+            companies_df = pd.concat([companies_df, pd.DataFrame(row, index=[0])], ignore_index=True)
+
+    companies_df.to_csv('data/companies.csv', index=False, mode="w", header=True) 
+    return new_companies_count
