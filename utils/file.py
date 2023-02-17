@@ -32,14 +32,13 @@ def read_csv(csv_file):
     return read_df 
 
 
-def create_companies_df(csv_file):
-    read_data_df = pd.read_csv(f'data/{csv_file}')
+def create_companies_df(read_df):
     read_companies_df = pd.read_csv('data/companys.csv')
 
     companys_lists = []
     new_companies_count = 0 
-    for line in range(len(read_data_df)):
-        line_posts=eval(read_data_df['posts'][line])
+    for line in range(len(read_df)):
+        line_posts=eval(read_df['posts'][line])
         for post in range(len(line_posts)):
             if line_posts[post]['company'] not in [i['company'] for i in companys_lists]:
                 companys_lists.append({'company': line_posts[post]['company'], 'img_url': line_posts[post]['img_url']})

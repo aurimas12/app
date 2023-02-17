@@ -87,9 +87,8 @@ class Crawler:
         self.count_time = count_time(start_time, stop_time)
         create_csv(self.csv_file, self.create_df())
         print(read_csv(self.csv_file))
-        print('count of a new companies adding to "company.csv" file:', create_companies_df(self.csv_file))
+        print(create_companies_df(read_csv(self.csv_file)))
         
-  
 
 if __name__ == '__main__':
     Crawler(url='https://www.cvbankas.lt?page=').run()
