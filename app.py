@@ -4,7 +4,7 @@ from tqdm import tqdm
 import time
 from models import Post
 import pandas as pd
-from utils.file import create_csv, read_csv, return_posts_df, return_companys_uniq_df
+from utils.file import create_csv, read_csv, create_companies_df
 from utils.count_time import upload_time, count_time
 from utils.try_data_scrap import try_salary, try_applicants, try_post_date
 
@@ -27,7 +27,7 @@ class Crawler:
             full_source = requests.get(f'{self.url}{page}', headers=self.headers)
             full_soup = BeautifulSoup(full_source.content, 'lxml')
             articles = full_soup.find_all('article')
-            for article in tqdm(articles, ncols=100, colour="yellow", desc='Posts scraping progress', leave=False):
+            for article in tqdm(articles[2:3], ncols=100, colour="yellow", desc='Posts scraping progress', leave=False):
                 post_id = article.find('div', {'class': 'jobadlist_ad_anchor'}).get("id")[6:]
                 post_url = article.find("a", {"class": "list_a can_visited list_a_has_logo"}).attrs['href']
                 img_url = article.find('img').get('src')
@@ -40,10 +40,10 @@ class Crawler:
                 
                 post_source = requests.get(post_url)
                 post_soup = BeautifulSoup(post_source.content, 'lxml')
-                description_full = post_soup.find_all('section', itemprop='description')[0].get_text()
+                description = post_soup.find_all('section', itemprop='description')[0].get_text()
                 applicants_value = try_applicants(post_soup)
 
-                post = Post(post_id,post_url,img_url,position,company,city,salary,post_date,upload_post,description_full,applicants_value)
+                post = Post(post_id,post_url,img_url,position,company,city,salary,post_date,upload_post,description,applicants_value)
                
                 self.posts.append(post.data_dict())   
         return self.posts
@@ -87,8 +87,8 @@ class Crawler:
         self.count_time = count_time(start_time, stop_time)
         create_csv(self.csv_file, self.create_df())
         print(read_csv(self.csv_file))
-        # create_csv('posts.csv', return_posts_df(self.csv_file))
-        # print(return_companys_uniq_df(return_posts_df(self.csv_file)))
+        print('count of a new companies adding to "company.csv" file:', create_companies_df(self.csv_file))
+        
   
 
 if __name__ == '__main__':

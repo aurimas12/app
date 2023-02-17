@@ -29,24 +29,25 @@ def create_csv(csv_file, df):
 def read_csv(csv_file):
     file_path = Path(f'data/{csv_file}')
     read_df = pd.read_csv(file_path)
-    return read_df.head() 
+    return read_df 
 
 
-def return_posts_df(csv_file):
-    file_path = Path(f'data/{csv_file}')
-    df = pd.read_csv(file_path)
-    f = df['posts']
-    df2 =pd.DataFrame(data=f, columns=["posts"])
-    return df2
+def create_companies_df(csv_file):
+    read_data_df = pd.read_csv(f'data/{csv_file}')
+    read_companies_df = pd.read_csv('data/companys.csv')
 
+    companys_lists = []
+    new_companies_count = 0 
+    for line in range(len(read_data_df)):
+        line_posts=eval(read_data_df['posts'][line])
+        for post in range(len(line_posts)):
+            if line_posts[post]['company'] not in [i['company'] for i in companys_lists]:
+                companys_lists.append({'company': line_posts[post]['company'], 'img_url': line_posts[post]['img_url']})
 
-def return_companys_uniq_df(df2):
-    company_lists = []
-    for line in range(len(pd.DataFrame(df2))):
-        line_list = list(eval(df2['posts'][line]))
-        values = [i['company'] for i in line_list]
-        company_lists.append(values)
-    company_list = sum(company_lists, [])
-    company_set_dict = set(company_list)
-    df_companys = pd.DataFrame(data=company_set_dict, columns=["company"])
-    return df_companys
+    for row in companys_lists:
+        if not (read_companies_df['company'] == row['company']).any():
+            new_companies_count += 1
+            read_companies_df = pd.concat([read_companies_df, pd.DataFrame(row, index=[0])], ignore_index=True)
+
+    read_companies_df.to_csv('data/companys.csv', index=False, mode="w", header=True) 
+    return new_companies_count
