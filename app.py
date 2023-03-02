@@ -6,7 +6,7 @@ from models import Post
 import pandas as pd
 from utils.file import create_csv, read_csv, create_companies_df
 from utils.count_time import upload_time, count_time
-from utils.try_data_scrap import try_salary, try_applicants, try_post_date
+from utils.try_data_scrap import try_salary,try_applicants,try_post_date,try_city
 
 class Crawler:
     def __init__(self, url):
@@ -33,7 +33,7 @@ class Crawler:
                 img_url = article.find('img').get('src')
                 position = article.find('h3').text
                 company = article.find('span', {'class': 'dib mt5'}).text
-                city = article.find('span', {'class': 'list_city'}).text
+                city = try_city(article)
                 salary = try_salary(article)
                 post_date = try_post_date(article)
                 upload_post = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(upload_time(post_date)))
