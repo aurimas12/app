@@ -1,3 +1,11 @@
+def try_city(article):
+    try:
+        city = article.find('span', {'class': 'list_city'}).text 
+    except:
+        city = 'not specified'     
+    return city   
+
+
 def try_post_date(article):
     try:
         post_date = article.find('span', {'class': 'txt_list_2'}).text  
@@ -5,7 +13,7 @@ def try_post_date(article):
         post_date = article.find('span', class_ = 'txt_list_important').text      
     return post_date   
 
-    
+  
 def try_salary(article):
     try:
         salary = article.find('span', class_ = 'salary_amount').text

@@ -6,6 +6,10 @@ __pycache__/
 # Ignore everything in data directory
 data/
 
+# Ignore everything in .vscode directory
+app/.vscode/
+.vscode/
+
 # C extensions
 *.so
 
