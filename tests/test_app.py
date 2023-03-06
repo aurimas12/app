@@ -5,14 +5,15 @@ class CrawlerTestCase(unittest.TestCase):
     
     def setUp(self):
         self.url = 'https://www.cvbankas.lt?page='
-        self.response = requests.get(self.url)
     
     
     def test_download_url(self):
+        self.response = requests.get(self.url)
         self.assertEqual(self.response.status_code, 200)
 
 
     def test_download_headers(self):
+        self.response = requests.get(self.url)
         self.assertTrue(self.response.headers)
 
 
