@@ -6,7 +6,8 @@ from models import Post
 import pandas as pd
 from utils.file import create_csv, read_csv, create_companies_df
 from utils.count_time import upload_time, count_time
-from utils.try_data_scrap import try_salary,try_applicants,try_post_date,try_city
+from utils.try_data_scrap import try_salary,try_applicants,try_post_date,try_city, try_description
+
 
 class Crawler:
     def __init__(self, url):
@@ -24,7 +25,7 @@ class Crawler:
     def download_content(self, pages_index):
         print('total pages:', pages_index) 
         for page in tqdm(range(1, pages_index+1 ), ncols=100, colour="green", desc='Pages scraping progress'):
-            full_source = requests.get(f'{self.url}{page}', headers=self.headers)
+            full_source = requests.get(f'{self.url}{page}')  # , headers=self.headers)
             full_soup = BeautifulSoup(full_source.content, 'lxml')
             articles = full_soup.find_all('article')
             for article in tqdm(articles, ncols=100, colour="yellow", desc='Posts scraping progress', leave=False):
@@ -32,7 +33,7 @@ class Crawler:
                 post_url = article.find("a", {"class": "list_a can_visited list_a_has_logo"}).attrs['href']
                 img_url = article.find('img').get('src')
                 position = article.find('h3').text
-                company = article.find('span', {'class': 'dib mt5'}).text
+                company = article.find('span', {'class': 'dib mt5 mr10'}).text
                 city = try_city(article)
                 salary = try_salary(article)
                 post_date = try_post_date(article)
@@ -40,7 +41,7 @@ class Crawler:
                 
                 post_source = requests.get(post_url)
                 post_soup = BeautifulSoup(post_source.content, 'lxml')
-                description = post_soup.find_all('section', itemprop='description')[0].get_text()
+                description = try_description(post_soup)
                 applicants_value = try_applicants(post_soup)
 
                 post = Post(post_id,post_url,img_url,position,company,city,salary,post_date,upload_post,description,applicants_value)
@@ -50,7 +51,7 @@ class Crawler:
     
 
     def get_last_page_index(self):
-        page_index = 1
+        page_index = 1 
         with requests.Session() as rs:
             while True:
                 req = rs.get(f'{self.url}{page_index}')
