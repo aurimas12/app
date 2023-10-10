@@ -24,6 +24,14 @@ def try_salary(article):
     return salary    
 
           
+def try_description(post_soup):
+    try:
+        description = post_soup.find_all('section', itemprop='description')[0].get_text()
+    except:
+        description = 'no escription data'           
+    return description
+
+
 def try_applicants(post_soup):   
     try:
         applicants_full = post_soup.find_all('div', class_='jobad_stat')[1].text
@@ -31,3 +39,5 @@ def try_applicants(post_soup):
     except:
         applicants_value = "0"
     return applicants_value  
+
+
