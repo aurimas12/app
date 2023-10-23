@@ -7,7 +7,7 @@ import pandas as pd
 from utils.file import create_csv, read_csv, create_companies_df
 from utils.count_time import upload_time, count_time
 from utils.try_data_scrap import try_salary,try_applicants,try_post_date,try_city, try_description
-
+import asyncio
 
 class Crawler:
     def __init__(self, url):
@@ -22,7 +22,7 @@ class Crawler:
         return response.headers
         
 
-    def download_content(self, pages_index):
+    async def download_content(self, pages_index):
         print('total pages:', pages_index) 
         for page in tqdm(range(1, pages_index+1 ), ncols=100, colour="green", desc='Pages scraping progress'):
             full_source = requests.get(f'{self.url}{page}')  # , headers=self.headers)
@@ -76,9 +76,17 @@ class Crawler:
 
     def crawl(self):
         pages_index = self.get_last_page_index()
-        page_content = self.download_content(pages_index)
-        return page_content
+        main_loop = asyncio.get_event_loop()
+        main_task = main_loop.create_task(self.async_download_content(pages_index))
+        page_result = main_loop.run_until_complete(main_task)
+        main_loop.close()
+        # page_content = self.download_content(pages_index)
+        # return page_content
+        return page_result
     
+    async def async_download_content(self, pages_index):
+        page_content = await self.download_content(pages_index)
+        return page_content
       
     def run(self):
         start_time = time.perf_counter()
@@ -94,4 +102,5 @@ class Crawler:
         
 
 if __name__ == '__main__':
+    print('Run code, please wait...')
     Crawler(url='https://www.cvbankas.lt?page=').run()
