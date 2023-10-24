@@ -50,26 +50,13 @@ class Crawler:
         return self.posts
     
 
-    # def get_last_page_index(self):
-    #     page_index = 1 
-    #     with requests.Session() as rs:
-    #         while True:
-    #             req = rs.get(f'{self.url}{page_index}')
-    #             soup = BeautifulSoup(req.content, 'lxml')
-    #             if soup.select_one('[rel=next]') is None:
-    #                 break
-    #             page_index += 1         
-    #     return page_index
-
     def get_last_page_index(self):
         req = self.download_url()
         soup = BeautifulSoup(req.content, 'lxml')
         ul = soup.find('ul', class_='pages_ul_inner').find_all('a')[-1]
         last_pages_index = int(ul.text)
         return last_pages_index
-        # return last_page_index
-        
-        
+             
         
     def create_df(self):
         data_csv = {
