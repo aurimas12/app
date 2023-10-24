@@ -19,12 +19,12 @@ class Crawler:
 
     def download_url(self):
         response = requests.get(self.url, headers=self.headers)  # timeout=1
-        return response.headers
+        return response
         
 
-    async def download_content(self, pages_index):
+    def download_content(self, pages_index):
         print('total pages:', pages_index) 
-        for page in tqdm(range(1, pages_index+1 ), ncols=100, colour="green", desc='Pages scraping progress'):
+        for page in tqdm(range(1, pages_index ), ncols=100, colour="green", desc='Pages scraping progress'):
             full_source = requests.get(f'{self.url}{page}')  # , headers=self.headers)
             full_soup = BeautifulSoup(full_source.content, 'lxml')
             articles = full_soup.find_all('article')
@@ -50,18 +50,27 @@ class Crawler:
         return self.posts
     
 
-    def get_last_page_index(self):
-        page_index = 1 
-        with requests.Session() as rs:
-            while True:
-                req = rs.get(f'{self.url}{page_index}')
-                soup = BeautifulSoup(req.content, 'lxml')
-                if soup.select_one('[rel=next]') is None:
-                    break
-                page_index += 1         
-        return page_index
+    # def get_last_page_index(self):
+    #     page_index = 1 
+    #     with requests.Session() as rs:
+    #         while True:
+    #             req = rs.get(f'{self.url}{page_index}')
+    #             soup = BeautifulSoup(req.content, 'lxml')
+    #             if soup.select_one('[rel=next]') is None:
+    #                 break
+    #             page_index += 1         
+    #     return page_index
 
-    
+    def get_last_page_index(self):
+        req = self.download_url()
+        soup = BeautifulSoup(req.content, 'lxml')
+        ul = soup.find('ul', class_='pages_ul_inner').find_all('a')[-1]
+        last_pages_index = int(ul.text)
+        return last_pages_index
+        # return last_page_index
+        
+        
+        
     def create_df(self):
         data_csv = {
             'website': "www.cvbankas.lt",
@@ -76,17 +85,17 @@ class Crawler:
 
     def crawl(self):
         pages_index = self.get_last_page_index()
-        main_loop = asyncio.get_event_loop()
-        main_task = main_loop.create_task(self.async_download_content(pages_index))
-        page_result = main_loop.run_until_complete(main_task)
-        main_loop.close()
-        # page_content = self.download_content(pages_index)
-        # return page_content
-        return page_result
-    
-    async def async_download_content(self, pages_index):
-        page_content = await self.download_content(pages_index)
+        page_content = self.download_content(pages_index)
+        # main_loop = asyncio.get_event_loop()
+        # main_task = main_loop.create_task(self.async_download_content(pages_index))
+        # page_result = main_loop.run_until_complete(main_task)
+        # main_loop.close()
         return page_content
+        # return page_result
+    
+    # async def async_download_content(self, pages_index):
+    #     page_content = await self.download_content(pages_index)
+    #     return page_content
       
     def run(self):
         start_time = time.perf_counter()
