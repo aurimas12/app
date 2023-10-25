@@ -2,13 +2,13 @@ from bs4 import BeautifulSoup
 import requests
 from tqdm import tqdm
 import time
-from models import Post
+from jobs_script.models import Post
 import pandas as pd
 from utils.file import create_csv, read_csv, create_companies_df
 from utils.count_time import upload_time, count_time
-from utils.try_data_scrap import try_salary,try_applicants,try_post_date,try_city, try_description
-import asyncio
+from utils.try_data_scrap import try_salary, try_applicants, try_post_date,try_city, try_description
 
+# download synchronous about 50-60 min.
 class Crawler:
     def __init__(self, url):
         self.url = url
@@ -53,8 +53,8 @@ class Crawler:
     def get_last_page_index(self):
         req = self.download_url()
         soup = BeautifulSoup(req.content, 'lxml')
-        ul = soup.find('ul', class_='pages_ul_inner').find_all('a')[-1]
-        last_pages_index = int(ul.text)
+        pages_ul = soup.find('ul', class_='pages_ul_inner').find_all('a')[-1]
+        last_pages_index = int(pages_ul.text)
         return last_pages_index
              
         
@@ -63,32 +63,24 @@ class Crawler:
             'website': "www.cvbankas.lt",
             'extract_time': self.count_time,
             'total_posts': len(self.posts),
-            'posts': [self.posts],
-            'created_date': self.time_now
+            'created_date': self.time_now,
+            'posts': [self.posts]
         }
-        df = pd.DataFrame(data_csv, columns=['website', 'extract_time', 'total_posts', 'posts', 'created_date'])
+        df = pd.DataFrame(data_csv, columns=['website', 'extract_time', 'total_posts', 'created_date', 'posts'])
         return df
 
 
     def crawl(self):
-        pages_index = self.get_last_page_index()
-        page_content = self.download_content(pages_index)
-        # main_loop = asyncio.get_event_loop()
-        # main_task = main_loop.create_task(self.async_download_content(pages_index))
-        # page_result = main_loop.run_until_complete(main_task)
-        # main_loop.close()
+        page_index = self.get_last_page_index()
+        page_content = self.download_content(page_index)
         return page_content
-        # return page_result
-    
-    # async def async_download_content(self, pages_index):
-    #     page_content = await self.download_content(pages_index)
-    #     return page_content
-      
+
+
     def run(self):
-        start_time = time.perf_counter()
+        start_time = time.monotonic()
         self.time_now = time.strftime("%Y-%m-%d %H:%M:%S")
         self.crawl()
-        stop_time = time.perf_counter()
+        stop_time = time.monotonic()
         self.count_time = count_time(start_time, stop_time)
         create_csv(self.csv_file, self.create_df())
         data_df = read_csv(self.csv_file)
