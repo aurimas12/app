@@ -10,7 +10,8 @@ def try_post_date(article):
     try:
         post_date = article.find('span', {'class': 'txt_list_2'}).text  
     except:
-        post_date = article.find('span', class_ = 'txt_list_important').text      
+        # post_date = article.find('span', class_ = 'txt_list_important').text 
+        post_date = 'pries 1 d.'     
     return post_date   
 
   

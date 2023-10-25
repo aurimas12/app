@@ -18,7 +18,7 @@
 
 ## General Information
 
-- Scaning website is www.cvbankas.lt
+- Scaning "www.cvbankas.lt" website
 - A crawler is a software robot that scans and downloads all posts from all pages from website and save data.
 - Saved data output file is data.csv
 
