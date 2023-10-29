@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 
 # Ignore everything in data directory
+jobs_script/data/
 data/
 **/.DS_Store
 # Ignore everything in .vscode directory
