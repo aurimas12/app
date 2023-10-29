@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-d7@5mp3q#*%=1wiwt^7^rr)b^7gz6r!t=yt7=13t-nc)(ua%c+'
+SECRET_KEY = 'django-insecure-87$8o3#6_)fy!mg702f1hfscz2v0v2&qp51nlid$)@tk#6y8-('
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -86,13 +86,7 @@ DATABASES = {
     }
 }
 
-# DATABASE_HOST = '127.0.0.1'
-# DATABASE_PORT = 5432
-# DATABASE_NAME = 'cvbankas'
-# DATABASE_USER = 'postgres'
-# DATABASE_PASSWORD = 'asdfghjkl'
 # Password validation
-
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
