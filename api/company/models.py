@@ -21,3 +21,6 @@ class Company(models.Model):
     city = models.PositiveSmallIntegerField(choices=CITY_CHOICES)
     logo_url = models.URLField(max_length=200, blank=True, null=True)
     
+    def __str__(self):
+        return self.name
+    
