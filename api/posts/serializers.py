@@ -1,7 +1,19 @@
 from rest_framework import serializers
-from .models import Post
+from .models import Post, Tags, Description
 
-class PostsSerializer(serializers.ModelSerializer):
+class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ['register_id', 'salary_min', 'salary_max', 'tags']
+        fields = '__all__'
+        
+
+class TagsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tags
+        fields = '__all__'
+
+
+class DescriptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Description
+        fields = '__all__'
