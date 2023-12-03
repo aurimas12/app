@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Post, Tags, Description
+from api.posts.models import Post, Tags, Description
 
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
