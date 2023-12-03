@@ -1,15 +1,13 @@
-from django.shortcuts import render
-from .models import Company
-from rest_framework import viewsets
-from rest_framework import permissions
-from .serializers import CompanySerializer
+# from django.shortcuts import render
+from rest_framework import generics
+from api.company.models import Company
+from api.company.serializers import CompanySerializer
 
 
-class CompanyViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = Company.objects.all().order_by('-date_joined')
+class CompanyCreateView(generics.CreateAPIView):
+    queryset = Company.objects.all()
     serializer_class = CompanySerializer
-    permission_classes = [permissions.IsAuthenticated]
 
+# class CompanyDetailView(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = Company.objects.all()
+#     serializer_class = CompanySerializer
