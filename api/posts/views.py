@@ -1,40 +1,47 @@
-# from django.shortcuts import render
-from .models import Post
-# from rest_framework import viewsets
-# from rest_framework import permissions
-from .serializers import PostSerializer
+from api.posts.models import Post
+from rest_framework import filters
+from api.posts.serializers import PostSerializer, TagsSerializer
 from rest_framework import generics
-from .models import Post, Tags, Description
-from .serializers import PostSerializer, TagsSerializer, DescriptionSerializer
-
-
-class PostCreateView(generics.CreateAPIView):
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
-
-class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
-
-
-class TagsCreateView(generics.CreateAPIView):
-    queryset = Tags.objects.all()
-    serializer_class = TagsSerializer
-
-class TagsDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Tags.objects.all()
-    serializer_class = TagsSerializer
-
-
-class DescriptionCreateView(generics.CreateAPIView):
-    queryset = Description.objects.all()
-    serializer_class = DescriptionSerializer
-
-class DescriptionDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Description.objects.all()
-    serializer_class = DescriptionSerializer
+from api.company.models import Company
+from api.company.serializers import CompanySerializer
 
 
 class GetAllPosts(generics.ListAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+
+
+class GetPostById(generics.RetrieveAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    lookup_field = 'pk'
+
+
+class GetPostByTag(generics.ListAPIView):
+    serializer_class = PostSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['tags__language']
+
+    def get_queryset(self):
+        tag_language = self.kwargs['language']
+        return Post.objects.filter(tags__language__icontains=tag_language)   
+    
+    
+class GetPostByCity(generics.ListAPIView):
+    serializer_class = PostSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['company__city']
+
+    def get_queryset(self):
+        city_name = self.kwargs['city_name']
+        return Post.objects.filter(company__city=city_name)
+    
+    
+class GetPostByCompany(generics.ListAPIView):
+    serializer_class = PostSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['company__name']
+
+    def get_queryset(self):
+        company_name = self.kwargs['company_name']
+        return Post.objects.filter(company__name__icontains=company_name)
