@@ -1,11 +1,5 @@
 from django.contrib import admin
-from .models import Post, Tags, Description
-
-
-@admin.register(Post)
-class PostAdmin(admin.ModelAdmin):
-    list_display = ('register_id', 'post_url', 'position', 'salary_min', 'salary_max', 'company',)
-    search_fields = ('register_id', 'salary_min', 'salary_max', 'position', 'publish_date') 
+from api.posts.models import Post, Tags, Description
 
 
 @admin.register(Tags)
@@ -18,4 +12,12 @@ class TagsAdmin(admin.ModelAdmin):
 class DescriptionAdmin(admin.ModelAdmin):
     list_display = ['text']
     search_fields = ['text']
+
+
+@admin.register(Post)
+class PostAdmin(admin.ModelAdmin):
+    list_display = ('register_id', 'post_url', 'position', 'salary_min', 'salary_max', 'company', 'tags', 'download_datetime')
+    search_fields = ('register_id', 'salary_min', 'salary_max', 'position', 'tags', 'company', 'download_datetime',) 
+    fields = ('register_id', 'post_url', 'position', 'salary_min', 'salary_max', 'company', 'tags')
+
 
