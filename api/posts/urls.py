@@ -1,23 +1,12 @@
 from django.urls import path
-from .views import (
-    PostCreateView, 
-    PostDetailView, 
-    TagsCreateView, 
-    TagsDetailView, 
-    DescriptionCreateView, 
-    DescriptionDetailView, 
-    GetAllPosts
-)
+from api.posts.views import GetAllPosts, GetPostByTag, GetPostById, GetPostByCompany, GetPostByCity
+
 
 
 urlpatterns = [
-    path('post/', PostCreateView.as_view(), name='company-create'),
-    path('post/<int:pk>/', PostDetailView.as_view(), name='company-detail'),
-    
-    path('tags/', TagsCreateView.as_view(), name='tags-create'),
-    path('tags/<int:pk>/', TagsDetailView.as_view(), name='tags-detail'),  
-    
-    path('description/', DescriptionCreateView.as_view(), name='description-create'),
-    path('description/<int:pk>/', DescriptionDetailView.as_view(), name='description-detail'),
-    path('post/all/', GetAllPosts.as_view(), name='all_posts')
+    path('post/all/', GetAllPosts.as_view(), name='all_posts'),
+    path('post/<int:pk>/', GetPostById.as_view(), name='get_post_by_id'),
+    path('post/tags/<str:language>/', GetPostByTag.as_view(), name='get_posts_by_tag'),  # tag_name
+    path('post/company/<str:company_name>/', GetPostByCompany.as_view(), name='get_post_by_company'),
+    path('post/city/<str:city_name>/', GetPostByCity.as_view(), name='get_post_by_city')
 ]
