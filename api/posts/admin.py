@@ -18,6 +18,6 @@ class DescriptionAdmin(admin.ModelAdmin):
 class PostAdmin(admin.ModelAdmin):
     list_display = ('register_id', 'post_url', 'position', 'salary_min', 'salary_max', 'company', 'tags', 'download_datetime')
     search_fields = ('register_id', 'salary_min', 'salary_max', 'position', 'tags', 'company', 'download_datetime',) 
-    fields = ('register_id', 'post_url', 'position', 'salary_min', 'salary_max', 'company', 'tags')
+    fields = ('register_id', 'post_url', 'position', 'salary_min', 'description', 'salary_max', 'company', 'tags')
 
 
