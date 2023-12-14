@@ -1,21 +1,19 @@
 from api.posts.models import Post
 from rest_framework import filters
-from api.posts.serializers import PostSerializer, TagsSerializer
+from api.posts.serializers import PostSerializer 
 from rest_framework import generics
-from api.company.models import Company
+# from api.company.models import Company
 from api.company.serializers import CompanySerializer
-
 
 class GetAllPosts(generics.ListAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    
 
-
-class GetPostById(generics.RetrieveAPIView):
+class GetPostByRegisterId(generics.RetrieveAPIView):  
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    lookup_field = 'pk'
-
+    lookup_field = 'register_id'
 
 class GetPostByTag(generics.ListAPIView):
     serializer_class = PostSerializer
@@ -30,18 +28,21 @@ class GetPostByTag(generics.ListAPIView):
 class GetPostByCity(generics.ListAPIView):
     serializer_class = PostSerializer
     filter_backends = [filters.SearchFilter]
-    search_fields = ['company__city']
+    search_fields = ['company__city'] 
 
     def get_queryset(self):
-        city_name = self.kwargs['city_name']
-        return Post.objects.filter(company__city=city_name)
-    
-    
+        city_id = self.kwargs['city']
+        return Post.objects.filter(company__city=city_id)
+
+
 class GetPostByCompany(generics.ListAPIView):
     serializer_class = PostSerializer
     filter_backends = [filters.SearchFilter]
-    search_fields = ['company__name']
-
+    search_fields = ['company__name__iexact']
+ 
     def get_queryset(self):
         company_name = self.kwargs['company_name']
-        return Post.objects.filter(company__name__icontains=company_name)
+        queryset = Post.objects.filter(company__name__iexact=company_name)
+        # all_company_names = Post.objects.values_list('company__name', flat=True)
+        # print(f"All company names in the db: {all_company_names}")
+        return queryset
