@@ -7,7 +7,3 @@ from api.company.serializers import CompanySerializer
 class CompanyCreateView(generics.CreateAPIView):
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
-
-# class CompanyDetailView(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = Company.objects.all()
-#     serializer_class = CompanySerializer
