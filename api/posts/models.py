@@ -14,8 +14,6 @@ class Description(models.Model):
     
     def __str__(self):
         return self.text[:100]
-    # def __str__(self):
-    #     return self.text
 
 
 class Post(models.Model):
