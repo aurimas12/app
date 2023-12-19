@@ -43,6 +43,4 @@ class GetPostByCompany(generics.ListAPIView):
     def get_queryset(self):
         company_name = self.kwargs['company_name']
         queryset = Post.objects.filter(company__name__iexact=company_name)
-        # all_company_names = Post.objects.values_list('company__name', flat=True)
-        # print(f"All company names in the db: {all_company_names}")
         return queryset
