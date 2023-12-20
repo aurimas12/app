@@ -1,3 +1,9 @@
-from django.shortcuts import render
+# from django.shortcuts import render
+from rest_framework import generics
+from api.company.models import Company
+from api.company.serializers import CompanySerializer
 
-# Create your views here.
+
+class CompanyCreateView(generics.CreateAPIView):
+    queryset = Company.objects.all()
+    serializer_class = CompanySerializer
