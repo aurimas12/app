@@ -27,6 +27,7 @@ SECRET_KEY = 'django-insecure-87$8o3#6_)fy!mg702f1hfscz2v0v2&qp51nlid$)@tk#6y8-(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
 ADMINS = [('admin', 'admin@admin.com')]
 
 ALLOWED_HOSTS = []
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'api.posts',
     'api.company',
+    "debug_toolbar",
     
 ]
 
@@ -56,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware'
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -131,6 +134,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
